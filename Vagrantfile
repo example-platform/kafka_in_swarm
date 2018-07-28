@@ -38,6 +38,10 @@ Vagrant.configure("2") do |config|
       node.vm.network :private_network, ip: "10.0.0.#{i + 10}"
       node.vm.provision "shell", inline: "echo hello from node #{i};hostname -I"
       node.vm.provision "shell", path: "docker/install-docker.sh"
+      node.vm.provision "shell" do |sh|
+        sh.path = "docker/add_user_to_docker_group.sh"
+        sh.args = ["vagrant"]
+      end
     end
   end
   
