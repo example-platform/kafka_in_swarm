@@ -2,9 +2,17 @@
 
 # Ref: https://docs.docker.com/engine/installation/linux/docker-ce/ubuntu/#install-using-the-convenience-script
 
+# Change to empty string
+QUIET_APT="-qq"
+# Change to /dev/stdout if there are issues
+QUIET_APT_OUT="/dev/null"
+
 echo "Setup Repository"
-apt-get update
-apt-get install -y apt-transport-https ca-certificates curl software-properties-common
+apt-get update ${QUIET_APT}
+apt-get install ${QUIET_APT} -y apt-transport-https \
+                                ca-certificates curl \
+                                software-properties-common \
+                                > ${QUIET_APT_OUT}
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 apt-key fingerprint 0EBFCD88
 add-apt-repository \
@@ -13,8 +21,8 @@ add-apt-repository \
     stable"
 
 echo "Install docker"
-apt-get update
-apt-get install docker-ce -y
+apt-get update ${QUIET_APT}
+apt-get install ${QUIET_APT} -y docker-ce > ${QUIET_APT_OUT}
 docker --version
 
 dockerComposeVersion="1.22.0"
@@ -25,6 +33,6 @@ chmod +x /usr/local/bin/docker-compose
 docker-compose --version
 
 echo "Run test"
-docker run hello-world
+docker run --rm hello-world
 
 exit 0;
