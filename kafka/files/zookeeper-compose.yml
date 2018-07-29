@@ -1,0 +1,30 @@
+---
+version: '3.3'
+services:
+  zookeeper:
+    image: exampleplatform/kafka:latest
+    volumes:
+      - type: volume
+        source: zoo-data
+        target: /tmp/zookeeper
+      - type: bind
+        source: /var/run/docker.sock
+        target: /var/run/docker.sock
+    ports:
+      - target: 2181
+        published: 2181
+    networks:
+      - kafka-net
+    deploy:
+      mode: global
+      placement:
+        constraints:
+          - node.labels.zoo==1
+    command: /kafka/bin/zookeeper-server-start.sh /kafka/config/zookeeper.properties
+
+networks:
+  kafka-net:
+    driver: overlay
+volumes:
+  zoo-data:
+
