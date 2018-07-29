@@ -33,6 +33,9 @@ chmod +x /usr/local/bin/docker-compose
 docker-compose --version
 
 echo "Run test"
-docker run --rm hello-world
+QUIET_OUT="/dev/null"
+DOCKER_IMAGE="hello-world"
+docker pull ${DOCKER_IMAGE} &> ${QUIET_OUT}
+docker run --rm ${DOCKER_IMAGE}
 
 exit 0;
