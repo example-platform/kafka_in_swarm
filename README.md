@@ -13,3 +13,11 @@
 - Kafka docker image used by process is here;
   - <https://hub.docker.com/r/exampleplatform/kafka/>
     - downloaded once and then copied to each VM through the standard Vagrant share. This is in an effort to not pull for each VM
+
+Get the path to a volume, so that you can tar it.
+<https://stackoverflow.com/questions/21597463/how-to-port-data-only-volumes-from-one-host-to-another>
+
+
+``` shell
+ docker volume inspect zoo-data | jq  '.[0].Mountpoint'
+```
